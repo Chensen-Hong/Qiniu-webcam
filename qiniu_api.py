@@ -245,33 +245,52 @@ def download_snapshots(access_key, secret_key, base_url, filepath):
     # r = requests.get(private_url)
 
 
-if __name__ == '__main__':
+def play_snapshots(access_key, secret_key, namespaceId, streamId):
+    count = 0
+    while True:
+        t1 = int(time.time() - 2)
+        for i in range(10):
+            h, r = takeScreenshot(access_key, secret_key, namespaceId, streamId)
+        time.sleep(2)
+        t2 = int(time.time())
+
+        while count < 10:
+            h, r = listSnapshots(access_key, secret_key, namespaceId, streamId, 100, None, t1, t2)
+            for item in r['items']:
+                download_snapshots(access_key, secret_key, item['snap'], './snapshot')
+                img = cv.imread('./snapshot')
+                if img is not None:
+                    cv.imshow('window name', img)
+                    cv.resizeWindow('window name', 800, 600)
+                    if cv.getWindowProperty('window name', cv.WND_PROP_VISIBLE) < 0:
+                        cv.namedWindow('window name', cv.WINDOW_NORMAL)
+                        cv.resizeWindow('window name', 800, 600)
+                    cv.waitKey(10)
+                    count += 1
+            time.sleep(1)
+            print(time.time() - t2)
+        count = 0
+
+
+def start():
     app_key = 'RofRgvw0K2egvDxKz7n75RJCH_R49e-hQLk_z1kk'
     app_sec = 'dMj5nG4ybGwzynCeoqopytKmsN2QDzg1QVnUF277'
     stm_id = '31011500991320020843'
     ns_id = 'qvs'
 
-    t1 = int(time.time() - 2)
-    for i in range(10):
-        h, r = takeScreenshot(app_key, app_sec, ns_id, stm_id)
-    time.sleep(0)
-    t2 = int(time.time())
+    try:
+        play_snapshots(app_key, app_sec, ns_id, stm_id)
+    except KeyboardInterrupt:
+        stopStreams(app_key, app_sec, ns_id, stm_id)
 
-    while True:
-        h, r = listSnapshots(app_key, app_sec, ns_id, stm_id, 100, None, t1, t2)
-        pprint(r)
-        for item in r['items']:
-            download_snapshots(app_key, app_sec, item['snap'], './snapshot')
-            img = cv.imread('./snapshot')
-            if img is not None:
-                cv.imshow('window name', img)
-                cv.resizeWindow('window name', 800, 600)
-                if cv.getWindowProperty('window name', cv.WND_PROP_VISIBLE) < 0:
-                    cv.namedWindow('window name', cv.WINDOW_NORMAL)
-                    cv.resizeWindow('window name', 800, 600)
-                cv.waitKey(10)
-        time.sleep(1)
-        print(time.time() - t2)
+
+if __name__ == '__main__':
+    start()
+
+
+
+
+
 
 
 
