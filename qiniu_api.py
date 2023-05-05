@@ -272,20 +272,20 @@ def play_snapshots(access_key, secret_key, namespaceId, streamId):
         count = 0
 
 
-def start():
-    app_key = 'RofRgvw0K2egvDxKz7n75RJCH_R49e-hQLk_z1kk'
-    app_sec = 'dMj5nG4ybGwzynCeoqopytKmsN2QDzg1QVnUF277'
-    stm_id = '31011500991320020843'
-    ns_id = 'qvs'
+def start(access_key, secret_key, namespaceId, streamId):
+    # app_key = 'RofRgvw0K2egvDxKz7n75RJCH_R49e-hQLk_z1kk'
+    # app_sec = 'dMj5nG4ybGwzynCeoqopytKmsN2QDzg1QVnUF277'
+    # stm_id = '31011500991320020843'
+    # ns_id = 'qvs'
 
     try:
-        play_snapshots(app_key, app_sec, ns_id, stm_id)
+        play_snapshots(access_key, secret_key, namespaceId, streamId)
     except KeyboardInterrupt:
-        stopStreams(app_key, app_sec, ns_id, stm_id)
+        stopStreams(access_key, secret_key, namespaceId, streamId)
 
 
-if __name__ == '__main__':
-    start()
+# if __name__ == '__main__':
+#     start()
 
 
 
