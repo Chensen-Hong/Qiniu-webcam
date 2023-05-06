@@ -71,9 +71,9 @@ class CameraApp(tk.Tk):
         label.pack(side='top', pady=10)
 
     def start_live(self):
-        start(app_key, app_sec, ns_id, stm_id)
         self.result_text.delete('1.0', tk.END)
         self.result_text.insert(tk.END, 'Live screen being acquired!')
+        start(app_key, app_sec, ns_id, stm_id)
 
 
 if __name__ == '__main__':
