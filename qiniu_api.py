@@ -1,8 +1,6 @@
 import time
-
 from qiniu import QiniuMacAuth, http, Auth
 import json
-from pprint import pprint
 import urllib.request
 import cv2 as cv
 
